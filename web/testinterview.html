@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="da">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CineMatch · Testinterview</title>
+<style>
+  :root { --bg:#14181c; --panel:#1f252b; --line:#343d46; --text:#e6e9ec; --muted:#9aa5af; --accent:#00c030; --chip:#2a323a; --danger:#e57373; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--text); font:15px/1.55 system-ui,"Segoe UI",sans-serif; }
+  header { max-width:900px; margin:auto; padding:28px 22px 12px; }
+  h1 { margin:0; font-size:28px; } h1 span { color:var(--accent); }
+  header p,.muted { color:var(--muted); }
+  main { max-width:900px; margin:auto; padding:10px 22px 60px; }
+  .toolbar { display:flex; gap:10px; flex-wrap:wrap; margin:14px 0 22px; }
+  button,.button { font:inherit; color:var(--text); background:var(--chip); border:1px solid var(--line); border-radius:8px; padding:9px 13px; cursor:pointer; text-decoration:none; }
+  button:hover,.button:hover { border-color:var(--accent); } .primary { background:#087c25; border-color:#087c25; }
+  section { background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:20px; margin:14px 0; }
+  h2 { font-size:18px; margin:0 0 14px; } h3 { font-size:15px; margin:20px 0 7px; }
+  .grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
+  label { display:block; color:#cbd1d6; font-size:13px; margin-bottom:5px; }
+  input,textarea,select { width:100%; color:var(--text); background:#171c20; border:1px solid var(--line); border-radius:7px; padding:10px 11px; font:inherit; }
+  input:focus,textarea:focus,select:focus { outline:1px solid var(--accent); border-color:var(--accent); }
+  textarea { min-height:78px; resize:vertical; } .short textarea { min-height:58px; }
+  .field { min-width:0; } .wide { grid-column:1/-1; }
+  .task { border-top:1px solid var(--line); padding-top:14px; margin-top:14px; }
+  .task:first-of-type { border:0; padding:0; margin:0; }
+  .prompt { border-left:3px solid var(--accent); padding:8px 12px; margin:8px 0 12px; background:#1a2024; color:#d9dfe3; }
+  .checkrow { display:flex; flex-wrap:wrap; gap:16px; color:var(--muted); font-size:13px; margin:9px 0; }
+  .checkrow label { display:flex; gap:7px; align-items:center; margin:0; }
+  .checkrow input { width:auto; accent-color:var(--accent); }
+  .scale { display:grid; grid-template-columns:repeat(5,1fr); gap:7px; margin:8px 0 14px; }
+  .scale label { text-align:center; background:#171c20; border:1px solid var(--line); border-radius:7px; padding:7px 4px; }
+  .scale input { width:auto; accent-color:var(--accent); }
+  .notice { color:var(--muted); font-size:13px; }
+  #saved { margin-left:auto; color:var(--muted); align-self:center; font-size:13px; }
+  @media(max-width:600px) { .grid { grid-template-columns:1fr; } .wide { grid-column:auto; } section { padding:15px; } }
+  @media print { :root { --bg:#fff; --panel:#fff; --line:#bbb; --text:#111; --muted:#444; --chip:#eee; } body { background:#fff; color:#111; } header,main { max-width:none; padding:10px; } section { break-inside:avoid; } .toolbar,.notice { display:none; } input,textarea,select { background:#fff; color:#111; } textarea { min-height:90px; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>Cine<span>Match</span> · Testinterview</h1>
+  <p>Notér hvordan en deltager oplever filmvalg og anbefalinger. Brug siden som interviewguide og dokumentation til dit projekt.</p>
+</header>
+<main>
+  <div class="toolbar">
+    <a class="button" href="/">← Tilbage til CineMatch</a>
+    <button class="primary" id="download">Hent interview som JSON</button>
+    <button id="print">Print / gem som PDF</button>
+    <button id="reset">Nyt interview</button>
+    <span id="saved" aria-live="polite">Gemmes automatisk på denne enhed</span>
+  </div>
+  <p class="notice">Start gerne med at sige: “Jeg tester appen, ikke dig. Tænk gerne højt, mens du prøver den. Der er ingen rigtige eller forkerte svar.” Undgå at hjælpe, medmindre deltageren går helt i stå.</p>
+
+  <section>
+    <h2>1 · Deltager og ramme</h2>
+    <div class="grid">
+      <div class="field"><label for="participant">Deltagerkode eller navn</label><input id="participant" placeholder="Fx Deltager 01"></div>
+      <div class="field"><label for="date">Dato</label><input id="date" type="date"></div>
+      <div class="field"><label for="duration">Varighed</label><input id="duration" placeholder="Fx 15 minutter"></div>
+      <div class="field"><label for="device">Enhed</label><input id="device" placeholder="Fx mobil / computer"></div>
+      <div class="field wide"><label for="filmhabits">Hvordan plejer du at vælge en film, når du skal se noget?</label><textarea id="filmhabits" placeholder="Notér deltagerens egne ord"></textarea></div>
+      <div class="field wide"><label for="expectations">Hvad forventer du, at en app med filmanbefalinger kan hjælpe med?</label><textarea id="expectations"></textarea></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>2 · Opgaver og observationer</h2>
+    <p class="notice">Læs kun opgaveteksten højt. Skriv, hvad deltageren gør og siger, uden at fortolke undervejs.</p>
+    <div class="task">
+      <h3>Opgave A · Tilføj film, du kan lide</h3>
+      <div class="prompt">“Vis mig, hvordan du ville fortælle CineMatch, hvilke film du kan lide.”</div>
+      <div class="checkrow"><label><input type="checkbox" id="a_done"> Gennemført</label><label><input type="checkbox" id="a_help"> Behøvede hjælp</label><label><input type="checkbox" id="a_stuck"> Gik i stå</label></div>
+      <div class="grid"><div class="field"><label for="a_obs">Observationer: handlinger, tøven, fejl, citater</label><textarea id="a_obs"></textarea></div><div class="field"><label for="a_issue">Hvad var uklart eller besværligt?</label><textarea id="a_issue"></textarea></div></div>
+    </div>
+    <div class="task">
+      <h3>Opgave B · Vurdér anbefalingerne</h3>
+      <div class="prompt">“Se på forslagene. Fortæl mig, hvad du lægger mærke til, og hvilket forslag du eventuelt ville vælge.”</div>
+      <div class="checkrow"><label><input type="checkbox" id="b_done"> Gennemført</label><label><input type="checkbox" id="b_help"> Behøvede hjælp</label><label><input type="checkbox" id="b_stuck"> Gik i stå</label></div>
+      <div class="grid"><div class="field"><label for="b_obs">Hvad kiggede deltageren på først?</label><textarea id="b_obs"></textarea></div><div class="field"><label for="b_relevance">Hvor relevante virkede forslagene – og hvorfor?</label><textarea id="b_relevance"></textarea></div></div>
+    </div>
+    <div class="task">
+      <h3>Opgave C · Forstå match og forklaring</h3>
+      <div class="prompt">“Vælg et forslag og forklar, hvad matchprocenten og ‘Why?’-forklaringen betyder for dig.”</div>
+      <div class="checkrow"><label><input type="checkbox" id="c_done"> Gennemført</label><label><input type="checkbox" id="c_help"> Behøvede hjælp</label><label><input type="checkbox" id="c_stuck"> Gik i stå</label></div>
+      <div class="grid"><div class="field"><label for="c_score">Hvordan fortolkede deltageren matchprocenten?</label><textarea id="c_score"></textarea></div><div class="field"><label for="c_why">Hvad forstod deltageren af “Why?” og begrundelsen?</label><textarea id="c_why"></textarea></div></div>
+    </div>
+    <div class="task">
+      <h3>Opgave D · Ret dine valgte film</h3>
+      <div class="prompt">“Forestil dig, at du kom til at vælge en film, du ikke mente. Vis mig, hvad du ville gøre.”</div>
+      <div class="checkrow"><label><input type="checkbox" id="d_done"> Gennemført</label><label><input type="checkbox" id="d_help"> Behøvede hjælp</label><label><input type="checkbox" id="d_stuck"> Gik i stå</label></div>
+      <div class="field"><label for="d_obs">Kunne deltageren finde ud af at fjerne filmen eller starte forfra?</label><textarea id="d_obs"></textarea></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>3 · Afsluttende spørgsmål</h2>
+    <div class="grid">
+      <div class="field"><label for="q_useful">Hvad var mest nyttigt ved CineMatch?</label><textarea id="q_useful"></textarea></div>
+      <div class="field"><label for="q_confusing">Var der noget, du var i tvivl om?</label><textarea id="q_confusing"></textarea></div>
+      <div class="field"><label for="q_change">Hvis du kunne ændre én ting, hvad skulle det så være?</label><textarea id="q_change"></textarea></div>
+      <div class="field"><label for="q_trust">Hvor meget stoler du på forslagene? Hvad påvirker din tillid?</label><textarea id="q_trust"></textarea></div>
+      <div class="field wide"><label>Hvor let var appen at bruge? (1 = meget svært, 5 = meget let)</label><div class="scale" role="group" aria-label="Brugervenlighed"><label><input type="radio" name="ease" value="1"> 1</label><label><input type="radio" name="ease" value="2"> 2</label><label><input type="radio" name="ease" value="3"> 3</label><label><input type="radio" name="ease" value="4"> 4</label><label><input type="radio" name="ease" value="5"> 5</label></div></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>4 · Din opsamling</h2>
+    <div class="grid">
+      <div class="field"><label for="strengths">Det, der fungerede godt</label><textarea id="strengths"></textarea></div>
+      <div class="field"><label for="improvements">Vigtigste forbedringsmuligheder</label><textarea id="improvements"></textarea></div>
+      <div class="field wide"><label for="next">Hvad vil du ændre eller undersøge i næste testrunde?</label><textarea id="next"></textarea></div>
+    </div>
+  </section>
+</main>
+<script>
+const KEY = "cinematch-testinterview-v1";
+const fields = [...document.querySelectorAll("input,textarea,select")];
+const saved = document.getElementById("saved");
+function collect() {
+  const result = {};
+  fields.forEach((field) => {
+    if (!field.id && field.name !== "ease") return;
+    const key = field.name === "ease" ? "ease" : field.id;
+    if (field.type === "checkbox") result[key] = field.checked;
+    else if (field.type === "radio") { if (field.checked) result[key] = field.value; }
+    else result[key] = field.value;
+  });
+  return { project: "CineMatch testinterview", savedAt: new Date().toISOString(), answers: result };
+}
+function persist() { localStorage.setItem(KEY, JSON.stringify(collect())); saved.textContent = "Gemt automatisk"; }
+try {
+  const prior = JSON.parse(localStorage.getItem(KEY) || "null");
+  if (prior && prior.answers) fields.forEach((field) => {
+    const key = field.name === "ease" ? "ease" : field.id;
+    if (!(key in prior.answers)) return;
+    if (field.type === "checkbox") field.checked = prior.answers[key];
+    else if (field.type === "radio") field.checked = field.value === prior.answers[key];
+    else field.value = prior.answers[key];
+  });
+} catch (_) {}
+fields.forEach((field) => field.addEventListener("input", persist));
+fields.forEach((field) => field.addEventListener("change", persist));
+document.getElementById("download").onclick = () => {
+  const blob = new Blob([JSON.stringify(collect(), null, 2)], { type:"application/json" });
+  const url = URL.createObjectURL(blob); const link = document.createElement("a");
+  const name = (document.getElementById("participant").value || "interview").trim().replace(/[^a-z0-9_-]+/gi,"-");
+  link.href = url; link.download = `cinematch-${name}.json`; link.click(); URL.revokeObjectURL(url);
+};
+document.getElementById("print").onclick = () => window.print();
+document.getElementById("reset").onclick = () => {
+  if (!confirm("Vil du starte et nyt interview? De gemte svar på denne enhed bliver slettet.")) return;
+  localStorage.removeItem(KEY); fields.forEach((field) => { if (field.type === "checkbox" || field.type === "radio") field.checked = false; else field.value = ""; });
+  saved.textContent = "Klar til nyt interview";
+};
+if (!document.getElementById("date").value) document.getElementById("date").value = new Date().toISOString().slice(0,10);
+</script>
+</body>
+</html>

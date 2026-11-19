@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.pyc
+
+# Local Python environment
+.conda/
+
+# Raw and derived datasets (large, and MovieLens/Letterboxd terms restrict redistribution)
+Movielens_Data/
+Letterboxd_Movies_Data/
+archive_movielens_merge/
+index/
+*.joblib
+
+# Generated model exports (large; shared out-of-band with the app)
+cinematch_model.json
+rating_model_test.json
+cinematch_rating_model_v2.zip
+*.zip

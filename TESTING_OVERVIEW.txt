@@ -1,0 +1,269 @@
+╔════════════════════════════════════════════════════════════════════════════╗
+║                  CINEMATCH ML MODEL TESTING FRAMEWORK                     ║
+║                           Complete Test Plan                              ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+📚 DOCUMENTATION STRUCTURE
+═══════════════════════════════════════════════════════════════════════════
+
+1. TESTING_PLAN_SUMMARY.md ⭐ START HERE
+   └─ Quick reference guide
+   └─ Timeline overview  
+   └─ Success criteria checklist
+   └─ Common fixes reference
+   ⏱ Read time: 10 minutes
+
+2. MODEL_TESTING_PLAN.md (COMPREHENSIVE)
+   ├─ Phase 1: Pre-Release Testing (Week 1-2)
+   │  └─ Unit tests + manual validation
+   ├─ Phase 2: Closed Beta (Week 3-4)
+   │  └─ In-app feedback collection
+   │  └─ Metrics dashboard
+   ├─ Phase 3: Analysis & Diagnosis (Week 4-5)
+   │  └─ Deep dives on problem areas
+   │  └─ Iteration decisions
+   ├─ Phase 4: Broader Beta (Week 6-7)
+   │  └─ 500 testers + market segmentation
+   └─ Phase 5: Production Launch
+      └─ Success criteria checklist
+   ⏱ Read time: 30 minutes
+
+3. FEEDBACK_SYSTEM_SETUP.md (IMPLEMENTATION)
+   ├─ Step 1: Feedback logging in Swift (30 min)
+   ├─ Step 2: Backend endpoint (1 hour)
+   ├─ Step 3: Analytics dashboard (1 hour)
+   ├─ Step 4: UI for feedback (30 min)
+   ├─ Step 5: Weekly review cadence
+   └─ Monthly deep dive templates
+   ⏱ Implementation time: 3-4 hours
+
+4. FEEDBACK_ANALYSIS_COOKBOOK.md (RECIPES)
+   ├─ Query 1: Find problematic films
+   ├─ Query 2: Compare features by precision
+   ├─ Query 3: Diagnose specific issues
+   ├─ Query 4: A/B test model versions
+   ├─ Fix recipes for common issues
+   └─ Weekly checklist (automated)
+   ⏱ Use for: Weekly analysis + issue diagnosis
+
+
+🚀 QUICK START GUIDE
+═══════════════════════════════════════════════════════════════════════════
+
+WEEK 1-2: Preparation
+  [ ] Read TESTING_PLAN_SUMMARY.md
+  [ ] Review MODEL_TESTING_PLAN.md Phase 1
+  [ ] Run manual validation on 100 films
+  [ ] Use Query 1 to find obvious problem films
+
+WEEK 3-4: Closed Beta
+  [ ] Implement feedback collection (FEEDBACK_SYSTEM_SETUP.md)
+  [ ] Recruit 50-100 beta testers
+  [ ] Deploy v2 model to test group
+  [ ] Run weekly_checks.py every Monday
+  [ ] Use FEEDBACK_ANALYSIS_COOKBOOK.md for diagnosis
+
+WEEK 4-5: Fix & Iterate (if needed)
+  [ ] Identify problem areas (use Query 2-3)
+  [ ] Implement targeted fixes
+  [ ] Rebuild model: python export_for_app.py --rebuild
+  [ ] Re-test with new beta group
+
+WEEK 6-7: Broader Beta
+  [ ] Expand to 500 testers
+  [ ] Run A/B tests on improvements
+  [ ] Market segment analysis
+
+WEEK 8: Launch
+  [ ] Final success criteria check
+  [ ] Deploy to production
+
+
+📊 KEY METRICS
+═══════════════════════════════════════════════════════════════════════════
+
+OVERALL PRECISION (Target: ≥75%)
+├─ Positive feedback ratio
+├─ Watch-through rate (≥40%)
+└─ User rating of watched films (≥3.5/5)
+
+BY FEATURE (Per-source precision)
+├─ Streaming filter:  Target ≥70%
+├─ Home rows:         Target ≥65%
+├─ Mood scan:         Target ≥60%
+└─ Search results:    Target ≥70%
+
+BY GENRE (No genre <50%)
+├─ Comedy, Drama, Action, Sci-Fi, Horror, etc.
+└─ Problem genres trigger root-cause analysis
+
+ENGAGEMENT
+├─ Active beta testers
+├─ Average feedback per user
+├─ Problem films identified
+└─ Time to actionable insights
+
+
+✅ SUCCESS CRITERIA FOR LAUNCH
+═══════════════════════════════════════════════════════════════════════════
+
+MUST BE YES:
+  [✓] Overall precision ≥75%
+  [✓] All major genres ≥50% (most ≥60%)
+  [✓] Streaming filter ≥70%
+  [✓] Home rows ≥65%
+  [✓] Mood scan ≥60%
+  [✓] Watch-through rate ≥40%
+  [✓] Average rating of watched films ≥3.5/5
+  [✓] <5% complaints in weekly surveys
+  [✓] No critical bugs
+  [✓] Performance <500ms per recommendation
+
+If any criteria is NO → Fix it, re-test, then launch.
+
+
+🔧 COMMON FIXES (From FEEDBACK_ANALYSIS_COOKBOOK.md)
+═══════════════════════════════════════════════════════════════════════════
+
+Issue: Low precision for Genre X
+├─ Diagnosis: Not enough same-genre neighbors
+└─ Fix: Increase genre_match weight in scoring
+   python export_for_app.py --rebuild
+
+Issue: Mood scan underperforming
+├─ Diagnosis: Too few films in that mood category
+└─ Fix: Add more films to MOOD_MAPPING
+   python export_for_app.py --rebuild
+
+Issue: Age rating filter is too restrictive
+├─ Diagnosis: Narrow combination of mood + age = few options
+└─ Fix: Use content analysis instead of genre alone
+   python export_for_app.py --rebuild
+
+
+📋 FEEDBACK COLLECTION (MINIMAL)
+═══════════════════════════════════════════════════════════════════════════
+
+In-App UI:
+  [ 👍 Great ] [ 🤷 Maybe ] [ 👎 Nope ]
+
+Captured for each feedback:
+  • User ID
+  • Film ID (tmdbId)
+  • Feedback (positive/neutral/negative)
+  • Feature source (streaming_filter/home_row/mood_scan/search)
+  • Rank position (1-50)
+  • Timestamp
+
+That's all. Everything else is backend analysis.
+
+
+📁 FILE ORGANIZATION
+═══════════════════════════════════════════════════════════════════════════
+
+Documentation:
+  ├─ TESTING_PLAN_SUMMARY.md ← Start here
+  ├─ MODEL_TESTING_PLAN.md ← Full methodology
+  ├─ FEEDBACK_SYSTEM_SETUP.md ← Implementation
+  ├─ FEEDBACK_ANALYSIS_COOKBOOK.md ← Recipes
+  └─ TESTING_OVERVIEW.txt ← This file
+
+Model Files:
+  ├─ cinematch_model.json (v2, 47.9 MB) ← Your current model
+  └─ export_for_app.py ← Script to rebuild if needed
+
+Implementation:
+  ├─ FeedbackManager.swift (from FEEDBACK_SYSTEM_SETUP.md)
+  ├─ backend/feedback.py (from FEEDBACK_SYSTEM_SETUP.md)
+  ├─ analytics/dashboard.py (from FEEDBACK_SYSTEM_SETUP.md)
+  └─ weekly_checks.py (from FEEDBACK_SYSTEM_SETUP.md)
+
+Database:
+  └─ feedback.db ← SQLite database (auto-created)
+
+
+🎯 EXECUTION CHECKLIST
+═══════════════════════════════════════════════════════════════════════════
+
+THIS WEEK:
+  [ ] Read TESTING_PLAN_SUMMARY.md
+  [ ] Skim MODEL_TESTING_PLAN.md Phase 1
+  [ ] Share docs with Peter (app developer)
+  [ ] Discuss feedback collection requirements
+
+NEXT WEEK:
+  [ ] Copy code from FEEDBACK_SYSTEM_SETUP.md
+  [ ] Implement FeedbackManager in Swift
+  [ ] Create backend endpoint
+  [ ] Set up analytics dashboard
+  [ ] Recruit beta testers
+
+WEEK 3:
+  [ ] Deploy v2 model to beta group
+  [ ] Enable feedback collection
+  [ ] Monitor first metrics
+
+WEEK 4:
+  [ ] Run first weekly_checks.py report
+  [ ] Analyze with FEEDBACK_ANALYSIS_COOKBOOK.md
+  [ ] Decide: Continue or Fix
+  [ ] Plan Week 5 actions
+
+
+💡 TIPS
+═══════════════════════════════════════════════════════════════════════════
+
+• Start with manual validation (100 films) BEFORE collecting feedback
+• Use weekly_checks.py automation to stay on top of metrics
+• Keep feedback simple: just 3 buttons + basic metadata
+• Don't rebuild model every day; batch improvements
+• A/B test improvements (v2.0 vs v2.1) before full deployment
+• Document what you change in export_for_app.py for reproducibility
+• Save feedback.db backups weekly
+• Create monthly trend reports (4-week rolling average)
+
+
+📞 REFERENCE QUICK LINKS
+═══════════════════════════════════════════════════════════════════════════
+
+Q: What should I test in Phase 1?
+A: MODEL_TESTING_PLAN.md → Section 1.1 & 1.2
+
+Q: How do I collect feedback in the app?
+A: FEEDBACK_SYSTEM_SETUP.md → Step 1
+
+Q: Horror precision dropped—what's wrong?
+A: FEEDBACK_ANALYSIS_COOKBOOK.md → Query 3 (diagnose_streaming_filter)
+
+Q: Is 72% precision enough to launch?
+A: MODEL_TESTING_PLAN.md → Section 5.1 (Success Criteria)
+
+Q: How do I rebuild the model?
+A: export_for_app.py --rebuild --neighbors 50
+
+Q: Should I deploy v2.1 model changes?
+A: FEEDBACK_ANALYSIS_COOKBOOK.md → Query 4 (A/B test comparison)
+
+Q: I need a weekly report template
+A: FEEDBACK_ANALYSIS_COOKBOOK.md → Section "Weekly Checklist"
+
+
+✨ YOU'RE ALL SET
+═══════════════════════════════════════════════════════════════════════════
+
+This framework covers:
+  ✅ What to test (5 phases)
+  ✅ How to collect feedback (implementation guide)
+  ✅ How to analyze results (SQL recipes + diagnostics)
+  ✅ How to fix issues (common scenarios)
+  ✅ When to launch (success criteria)
+  ✅ How to iterate (A/B testing framework)
+
+Next step: Start Week 1 prep work.
+
+Questions? Check FEEDBACK_ANALYSIS_COOKBOOK.md's "Troubleshooting" section.
+
+═══════════════════════════════════════════════════════════════════════════
+                        Testing Framework Complete
+                              Ready to Launch
+═══════════════════════════════════════════════════════════════════════════

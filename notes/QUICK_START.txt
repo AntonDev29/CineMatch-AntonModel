@@ -1,0 +1,179 @@
+╔═══════════════════════════════════════════════════════════════════════════╗
+║                  CINEMATCH ML → APP QUICK START                          ║
+║                         30 October 2026                                   ║
+╚═══════════════════════════════════════════════════════════════════════════╝
+
+FOR PETER (App Developer):
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ YOU CAN START NOW
+
+  1. Download: cinematch_model.json (26 MB, v1, ready in Xcode)
+  
+  2. Build MVP screens:
+     • "For You" (top 5 recommendations with reasons)
+     • "Your taste" onboarding (like/dislike 48 starter films)
+  
+  3. Use model output:
+     • score → display as "% match" (0–100)
+     • similarity → use for ranking
+     • breakdown + shared terms → build reason text
+     • quality → boost score slightly
+
+  4. No waiting. Everything you need is here.
+
+⏳ IN 2–3 HOURS (ML delivers v2):
+
+  • Get TMDB IDs (for your TMDB poster/streaming API calls)
+  • Get 50 candidates per film (for streaming filter)
+  • Get tags per film (for home screen thematic rows)
+  • Get moods per film (for "what mood?" filter)
+  • Get age ratings (for "watching with family?" filter)
+
+  Then you integrate those fields into your app.
+
+📖 READ FIRST: ANSWER_TO_PETER.md (quick reference)
+
+
+FOR ML TEAM (Anton, Mikkel):
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ MODEL IS READY – NO CHANGES NEEDED
+
+  Current export (v1) works perfectly for MVP.
+
+⏳ PHASE 2–3 EXPORT (2–3 HOURS TOTAL):
+
+  1. Check ml_prompt_tmdb_id.md
+     → Do 95%+ of 8000 films have TMDB ID?
+     → If not, fetch from TMDB API (~30 min added)
+
+  2. Define tags & moods
+     → Discuss with Peter (30 min call)
+     → Decide: ~50–100 tags, 4–8 moods
+
+  3. Rebuild model export (v2):
+     python export_for_app.py --neighbors 50
+     
+  4. Add fields to export_for_app.py:
+     • tmdbId (from step 1)
+     • tags (from step 2)
+     • moods (from step 2)
+     • ageRating (from TMDB)
+
+  5. Test verification:
+     ✓ All 8000 films have new fields
+     ✓ No duplicate IDs
+     ✓ File size ~28–30 MB
+     ✓ formatVersion = 2
+
+  6. Commit & notify Peter
+
+📖 READ FIRST: SETUP_CHECKLIST.md (detailed tasks)
+
+
+FOR PETER + ML TEAM:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🎯 DO THIS TODAY (30 min call):
+
+  1. Check: TMDB ID mapping (ml_prompt_tmdb_id.md)
+     → Risk: 0.5–2 hours if IDs missing
+     → Mitigation: TMDB API fetch (can automate)
+
+  2. Define: Tag vocabulary (~50–100 tags)
+     Examples: "slow-burn", "dark", "indie", "feel-good", "philosophical"
+     → Peter: What tags would help your home screen rows?
+     → ML: Can tagging be automated from themes/genres?
+
+  3. Define: Mood labels (4–8 moods)
+     Today's options: Laugh, Thrill, Think, Be moved
+     → Peter: Any other moods needed?
+     → ML: Can moods be inferred from rating patterns?
+
+  4. Plan: Age rating source
+     → TMDB? (easy, maybe 10% gaps)
+     → IMDb? (external fetch)
+     → Fallback? (yes, "no restriction" is OK)
+
+  Result: ML can finish v2 export with no surprises.
+
+
+TIMELINE:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  TODAY (30 Oct):
+    • You: Read QUICK_START.txt (this file)
+    • All: 30-min call → finalize tags/moods/TMDB plan
+    • Peter: Download v1 model → start MVP
+    • ML: Check TMDB mapping status
+
+  WEEK 1:
+    • Peter: Build MVP screens (uses v1)
+    • ML: Export v2 (2–3 hours work)
+
+  WEEK 2:
+    • ML: Deliver v2 model + verification
+    • Peter: Integrate new fields → Phase 2–3 features
+    • All: Test end-to-end
+
+  LAUNCH: MVP ready (no delays)
+
+
+KEY NUMBERS:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Model size:              26 MB (v1) → 28–30 MB (v2)
+  Films in catalog:        8,000
+  Neighbors per film:      25 (v1) → 50 (v2)
+  Starter films:           48 (for onboarding)
+  Feature types:           14 (Director, Cast, Themes, etc.)
+  App first launch:        ~35 seconds (one-time build)
+  App subsequent launch:   ~2 seconds (loaded from cache)
+  ML v2 export effort:     2–3 hours (data enrichment, no model changes)
+  Schedule impact:         ZERO (parallel work)
+
+
+DOCUMENT MAP:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ml_prompt_app_overview.md      ← Input: What app needs
+  ├─ QUICK_START.txt             ← Here (1 page, action items)
+  ├─ FIT_SUMMARY.txt             ← Exec summary (2 pages)
+  ├─ ANSWER_TO_PETER.md          ← For Peter (3 pages)
+  ├─ SETUP_CHECKLIST.md          ← For ML team (5 pages)
+  ├─ SCHEDULE_FIT_ANALYSIS.md    ← For stakeholders (4 pages)
+  └─ ML_READINESS_SUMMARY.md     ← Complete overview (3 pages)
+
+  cinematch_model.json           ← Model file (v1, ready now)
+  export_for_app.py              ← Rebuild script (for v2)
+  cinematch.py                   ← Model source code
+
+
+❓ QUESTIONS:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Q: Can we ship MVP now?
+  A: Yes. Use v1 model as-is. No waiting.
+
+  Q: What about TMDB IDs?
+  A: Check ml_prompt_tmdb_id.md. If 95%+ covered, trivial.
+     If not, +0.5–2 hours for ML. (Still no blocker.)
+
+  Q: Will formatVersion change break the app?
+  A: App rejects unknown versions. Plan for v2 before launching.
+     Both Peter & ML aware; no surprise.
+
+  Q: Can we parallelize?
+  A: Yes. Peter builds UI while ML enriches data. Perfect fit.
+
+  Q: What if we skip some Phase 2–3 features?
+  A: Model is ready for all. Pick & choose per schedule.
+     (Streaming filter recommended; home rows nice-to-have.)
+
+  Q: Do we need Mikkels audience model (MovieLens)?
+  A: Not for MVP. Content-based works solo. Future: combine them.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Ready? Start with ANSWER_TO_PETER.md (Peter) or SETUP_CHECKLIST.md (ML).
