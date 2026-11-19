@@ -21,11 +21,11 @@ import numpy as np
 import pandas as pd
 from scipy import stats
 
-import cinematch
+import Test.old.cinematch as cinematch
 from evaluate_content_blend import movielens_to_letterboxd, tag_features
-from evaluate_factor_model import LIKED
-from evaluate_rating_model import HOLDOUT, film_averages, load_ratings, log, train_movielens
-from export_for_app import choose_films
+from Test.old.evaluate_factor_model import LIKED
+from Test.old.evaluate_rating_model import HOLDOUT, film_averages, load_ratings, log, train_movielens
+from Test.old.export_for_app import choose_films
 from export_rating_model import pick_users
 from tune_rating_blend import clipped, score
 
