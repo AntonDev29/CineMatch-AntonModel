@@ -193,14 +193,14 @@ We wrote the model as a JSON file, `rating_model_test.json`, the same way the ap
 
 | File | Purpose |
 |---|---|
-| [evaluate_rating_model.py](../evaluate_rating_model.py) | Step 1: first benchmark |
-| [tune_rating_blend.py](../tune_rating_blend.py) | Step 2: learned weights, shared helpers |
-| [evaluate_factor_model.py](../evaluate_factor_model.py) | Ridge test (rejected) |
-| [evaluate_content_blend.py](../evaluate_content_blend.py) | Genre, tag, boosted, and classifier tests |
-| [evaluate_catalogue_ranking.py](../evaluate_catalogue_ranking.py) | Ranking tests across the catalogue and low-profile sizes |
-| [export_rating_model.py](../export_rating_model.py) | Writes the test file |
+| [rating_model.py](../rating_model.py) | **The rating model in one file.** Runs the RMSE benchmark, the ranking test, and writes the export. |
 | [rating_model_test.json](../rating_model_test.json) | Test export (format v2). Not for the app yet. |
+| [cinematch.py](../cinematch.py), [movielens.py](../movielens.py) | Shared building blocks used by `rating_model.py` |
+| [export_for_app.py](../export_for_app.py) | The mood-recommender export |
 | [cinematch_model.json](../cinematch_model.json) | The mood-recommender export Peter is using. **Not changed.** |
+| `Test\old\` | Earlier scripts (steps 1–5), kept for reference. Not needed to run the model. |
+
+Run it with `python rating_model.py` (benchmarks and export). Use `--skip-benchmarks` for export only, or `--skip-export` for benchmarks only.
 
 ---
 
