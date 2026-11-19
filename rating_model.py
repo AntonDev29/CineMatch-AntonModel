@@ -37,6 +37,7 @@ import cinematch
 from movielens import MovieLensAudienceModel
 
 ROOT = Path(__file__).resolve().parent
+DEFAULT_EXPORT = ROOT / "rating_model_test.json"
 CATALOGUE = 8000        # films in the app, chosen as in export_for_app.py
 USERS_EACH = 2000       # validation users and test users
 SEED = 0
@@ -425,7 +426,50 @@ def export_model(out, ratings, cat_ids, names, lb_lists, tag_lists, weights):
     log(f"Saved {out} ({out.stat().st_size / 1e6:.1f} MB): {len(cat_ids):,} films")
 
 
+# Recommendations
+
+def load_export(path):
+    """Reads an export the way the app will."""
+    data = json.loads(Path(path).read_text(encoding="utf-8"))
+    nbrs, film_dev = reader(data)
+    return {
+        "ids": np.array([f["id"] for f in data["films"]], dtype=np.int64),
+        "titles": [f["title"] for f in data["films"]],
+        "film_dev": film_dev,
+        "nbrs": nbrs,
+        "weights": np.array([data["weights"][JSON_WEIGHT_KEYS[name]] for name in NAMES_TAG + ("intercept",)]),
+    }
+
+
+def score_candidates(model, ratings):
+    """Predicted stars for every catalogue film the user has not rated. ratings maps film id to stars on 1-4."""
+    if not ratings:
+        raise ValueError("need at least one rating")
+    position = {int(f): k for k, f in enumerate(model["ids"])}
+    unknown = [f for f in ratings if int(f) not in position]
+    if unknown:
+        raise ValueError(f"not in the catalogue: {unknown}")
+    prof = np.array([position[int(f)] for f in ratings])
+    stars = np.array([float(s) for s in ratings.values()])
+    base = stars.mean()
+    centered = stars - base
+    cands = np.setdiff1d(np.arange(len(model["ids"])), prof)
+    signals = {name: deviation(model["nbrs"][name][cands][:, prof], centered, SHRINK) for name in ("lb", "ml", "tag")}
+    signals["film"] = model["film_dev"][cands]
+    pred = clipped(base + design(signals, NAMES_TAG) @ model["weights"])
+    return cands, pred
+
+
+def recommend(ratings, n=10, export=DEFAULT_EXPORT):
+    """Top n unrated films for a user. ratings maps film id to stars on 1-4. Returns (id, title, predicted stars)."""
+    model = load_export(export)
+    cands, pred = score_candidates(model, ratings)
+    best = np.argsort(-pred, kind="stable")[:n]
+    return [(int(model["ids"][cands[i]]), model["titles"][cands[i]], round(float(pred[i]), 2)) for i in best]
+
+
 # Benchmarks
+
 
 def rmse_benchmark(catalogue, test_ids, sims, film_dev, gm, app, weights):
     app_nb, app_film, app_gm = app
@@ -466,7 +510,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--skip-benchmarks", action="store_true", help="only write the export")
     parser.add_argument("--skip-export", action="store_true", help="only run the benchmarks")
-    parser.add_argument("--out", default=str(ROOT / "rating_model_test.json"), help="export file to write")
+    parser.add_argument("--out", default=str(DEFAULT_EXPORT), help="export file to write")
     args = parser.parse_args()
 
     index = joblib.load(cinematch.INDEX_PATH)
